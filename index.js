@@ -1,4 +1,6 @@
 import express from 'express';
+import multer from 'multer';
+
 import mongoose from 'mongoose';
 import { registerValidation, loginValidation, postCreateValidation } from './validations.js';
 import checkAuth from './utils/checkAuth.js';
@@ -15,7 +17,32 @@ mongoose
 
 const app = express();
 
+//создаем хранилище где будем сохранять картинки
+const storage = multer.diskStorage({
+	destination: (_, __, cb) => {
+		//не получает ошибок и нужно сохранить файлы в папку uploads
+		cb(null, 'uploads');
+	},
+	filename: (_, file, cb) => {
+		//не получает ошибок и вытаскиваем оригинальное название
+		cb(null, file.originalname);
+	},
+});
+
+//добавляем логику multer в express
+const upload = multer({ storage });
+
 app.use(express.json());
+
+//дает возможность обращаться к файлам в папке
+app.use('/uploads', express.static('uploads'));
+
+//запрос на загрузку картинки
+app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
+	res.json({
+		url: `/uploads/${req.file.originalname}`,
+	});
+});
 
 //авторизация
 app.post('/auth/login', loginValidation, UserController.login);
