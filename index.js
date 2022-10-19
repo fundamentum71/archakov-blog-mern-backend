@@ -27,15 +27,15 @@ app.post('/auth/register', registerValidation, UserController.register);
 app.get('/auth/me', checkAuth, UserController.getMe);
 
 //получение всех статей
-//app.get('/posts', PostController.getAll);
+app.get('/posts', PostController.getAll);
 //получить одну статью
-//app.get('/posts/:id', PostController.getOne);
+app.get('/posts/:id', PostController.getOne);
 //создать статью
 app.post('/posts', checkAuth, postCreateValidation, PostController.create);
 //удалить статью
-//app.delete('/posts', checkAuth, PostController.remove);
+app.delete('/posts/:id', checkAuth, PostController.remove);
 //обновить статью
-//app.patch('/posts', checkAuth, PostController.update);
+app.patch('/posts/:id', checkAuth, postCreateValidation, PostController.update);
 
 app.listen(3000, (err) => {
 	if (err) {
