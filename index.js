@@ -3,11 +3,8 @@ import multer from 'multer';
 
 import mongoose from 'mongoose';
 import { registerValidation, loginValidation, postCreateValidation } from './validations.js';
-import checkAuth from './utils/checkAuth.js';
-
-import * as UserController from './controllers/UserController.js';
-import * as PostController from './controllers/PostController.js';
-import handleValidationErrors from './utils/handleValidationErrors.js';
+import { handleValidationErrors, checkAuth } from './utils/index.js';
+import { UserController, PostController } from './controllers/index.js';
 
 mongoose
 	.connect(
