@@ -57,6 +57,8 @@ app.get('/auth/me', checkAuth, UserController.getMe);
 
 //получение всех статей
 app.get('/posts', PostController.getAll);
+//получение всех тэгов
+app.get('/tags', PostController.getLastTags);
 //получить одну статью
 app.get('/posts/:id', PostController.getOne);
 //создать статью

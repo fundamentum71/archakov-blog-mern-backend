@@ -14,6 +14,24 @@ export const getAll = async (req, res) => {
 	}
 };
 
+export const getLastTags = async (req, res) => {
+	try {
+		//возьмем тэги с последних 5ти статей
+		const posts = await PostModel.find().limit(5).exec();
+		const tags = posts
+			.map((obj) => obj.tags)
+			.flat()
+			.slice(0, 5);
+
+		res.json(tags);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({
+			message: 'Не удалось получить статьи',
+		});
+	}
+};
+
 export const getOne = async (req, res) => {
 	try {
 		//вытаскиваем id статьи
